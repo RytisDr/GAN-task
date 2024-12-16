@@ -33,7 +33,7 @@ export const searchForBooks = async (
 };
 
 // Could be incorporated into searchForBooks funciton, but I believe this is more readable.
-export const trendingBooks = async (
+export const getTrendingBooks = async (
   setBooks: React.Dispatch<React.SetStateAction<BookType[]>>,
   limit: number = 3
 ): Promise<void> => {
