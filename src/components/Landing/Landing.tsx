@@ -13,7 +13,7 @@ function Landing() {
     <>
       <h1>Trending Books</h1>
       <nav>
-        <Link to="/books">Go to Books Page</Link>
+        <Link to="/books">Books</Link>
       </nav>
       <div className="card">
         {books.length > 0 ? (
