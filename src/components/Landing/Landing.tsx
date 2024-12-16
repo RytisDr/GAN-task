@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { BookType, searchForBooks } from "../../utils/openLibrary";
+import { BookType, trendingBooks } from "../../utils/openLibrary";
 
 function Landing() {
   const [books, setBooks] = useState<BookType[]>([]);
 
   useEffect(() => {
-    searchForBooks(setBooks, "Harry Potter");
+    trendingBooks(setBooks);
   }, []);
 
   return (
