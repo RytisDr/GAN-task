@@ -13,10 +13,11 @@ const options = {
 export type BookType = {
   title: string;
   cover_i?: number; // Optional if not all books have covers
+  key: string;
 };
 
-/* const getCovers = async () => {
-}; */
+type OpenLibraryResponse = { docs: BookType[] } | { works: BookType[] } | null;
+
 export const searchForBooks = async (
   setBooks: React.Dispatch<React.SetStateAction<BookType[]>>,
   query: string,
@@ -25,14 +26,14 @@ export const searchForBooks = async (
   const response = await openLibraryClient(
     baseUrl + `search.json?q=${query}&limit=${limit}`
   );
-  if (response && response.docs) {
+  if (response && "docs" in response) {
     setBooks(response.docs); // Use the fetched "docs" to update state.
   } else {
     console.error("No books found or failed to fetch data");
   }
 };
 
-// Could be incorporated into searchForBooks funciton, but I believe this is more readable.
+// Could be incorporated into searchForBooks function to be less repetitive, but I believe this is more readable.
 export const getTrendingBooks = async (
   setBooks: React.Dispatch<React.SetStateAction<BookType[]>>,
   limit: number = 3
@@ -40,21 +41,18 @@ export const getTrendingBooks = async (
   const response = await openLibraryClient(
     baseUrl + `trending/daily.json?limit=${limit}`
   );
-  if (response && response.works) {
+  if (response && "works" in response) {
     setBooks(response.works);
   } else {
     console.error("No books found or failed to fetch data");
   }
 };
 
-async function openLibraryClient(
-  query: string
-): Promise<{ docs: BookType[]; works: BookType[] } | null> {
-  // API returns docs when using search endpoint and works when using trending/daily
+async function openLibraryClient(query: string): Promise<OpenLibraryResponse> {
+  // API returns 'docs' when using search endpoint and 'works' when using trending/daily
   try {
     const response = await fetch(query, options);
     const data = await response.json();
-    console.log(data);
     if ("docs" in data || "works" in data) {
       return data; // Explicitly return the data if it contains "docs" or "works".
     }

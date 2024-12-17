@@ -5,7 +5,7 @@ function Books() {
     <div>
       <h1>Books Page</h1>
       <nav>
-        <Link to="/books">Home</Link>
+        <Link to="/">Home</Link>
       </nav>
       <p>List of Books or Books Page Content Here</p>
     </div>
