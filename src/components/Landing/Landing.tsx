@@ -10,7 +10,6 @@ function Landing() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [books, setBooks] = useState<BookType[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  // const [loading, setLoading] = useState<boolean>(false); // TODO
 
   useEffect(() => {
     const query = searchParams.get("q") || ""; // Get the search term from the URL
@@ -47,7 +46,7 @@ function Landing() {
         <button type="submit">Search</button>
       </form>
       {!searchParams.get("q") && <h1>Top 3 Trending Books Right Now!</h1>}
-      <div className="card">
+      <div className="trending-book-card">
         {books.length > 0 ? (
           books.map((book) => (
             <div key={book.key}>

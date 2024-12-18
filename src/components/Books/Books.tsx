@@ -1,13 +1,45 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  BookType,
+  getTrendingBooks,
+  removePrefix,
+} from "../../utils/openLibrary";
 
 function Books() {
+  const [books, setBooks] = useState<BookType[]>([]);
+  useEffect(() => {
+    getTrendingBooks(setBooks, 10);
+  }, []);
   return (
     <div>
-      <h1>Books Page</h1>
       <nav>
         <Link to="/">Home</Link>
       </nav>
-      <p>List of Books or Books Page Content Here</p>
+      <p>Top 10 Trending books!</p>
+
+      {books.length > 0 ? (
+        books.map((book) => {
+          const cleanedKey = removePrefix(book.key);
+          return (
+            <div key={book.key}>
+              <Link to={`/books/${cleanedKey}`}>
+                <p>{book.title}</p>
+                <img
+                  src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`}
+                  alt={
+                    book.title
+                      ? `${book.title} book cover.`
+                      : "Cover of a book missing."
+                  }
+                />
+              </Link>
+            </div>
+          );
+        })
+      ) : (
+        <p>Loading</p>
+      )}
     </div>
   );
 }
