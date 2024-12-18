@@ -5,6 +5,16 @@ import {
   getTrendingBooks,
   removePrefix,
 } from "../../utils/openLibrary";
+import {
+  BookCard,
+  BookCover,
+  BookTitle,
+  Content,
+  Loading,
+  Navigation,
+  PageHeading,
+  StyledLink,
+} from "../../shared-styles/common-components";
 
 function Books() {
   const [books, setBooks] = useState<BookType[]>([]);
@@ -12,20 +22,19 @@ function Books() {
     getTrendingBooks(setBooks, 10);
   }, []);
   return (
-    <div>
-      <nav>
-        <Link to="/">Home</Link>
-      </nav>
-      <p>Top 10 Trending books!</p>
-
+    <Content>
+      <Navigation>
+        <StyledLink to="/">Home</StyledLink>
+      </Navigation>
+      <PageHeading>Top 10 Trending books!</PageHeading>
       {books.length > 0 ? (
         books.map((book) => {
           const cleanedKey = removePrefix(book.key);
           return (
-            <div key={book.key}>
+            <BookCard key={book.key}>
               <Link to={`/books/${cleanedKey}`}>
-                <p>{book.title}</p>
-                <img
+                <BookTitle>{book.title}</BookTitle>
+                <BookCover
                   src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`}
                   alt={
                     book.title
@@ -34,13 +43,13 @@ function Books() {
                   }
                 />
               </Link>
-            </div>
+            </BookCard>
           );
         })
       ) : (
-        <p>Loading</p>
+        <Loading>Loading</Loading>
       )}
-    </div>
+    </Content>
   );
 }
 

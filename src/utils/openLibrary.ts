@@ -15,11 +15,15 @@ const options = {
 export type BookType = {
   covers?: number[];
   title: string;
-  cover_i?: number; // Optional if not all books have covers
+  cover_i?: number;
   key: string;
 };
 
-type OpenLibraryResponse = { docs: BookType[] } | { works: BookType[] } | null; //TODO: consolidate the client for flexibility
+type OpenLibraryResponse =
+  | { docs: BookType[] }
+  | { works: BookType[] }
+  | BookType // Single book for `works/:id`
+  | null;
 
 export const searchForBooks = async (
   setBooks: React.Dispatch<React.SetStateAction<BookType[]>>,
@@ -30,13 +34,12 @@ export const searchForBooks = async (
     baseUrl + `search.json?q=${query}&limit=${limit}`
   );
   if (response && "docs" in response) {
-    setBooks(response.docs); // Use the fetched "docs" to update state.
+    setBooks(response.docs);
   } else {
     console.error("No books found or failed to fetch data");
   }
 };
 
-// Could be incorporated into searchForBooks function to be less repetitive, but I believe this is more readable.
 export const getTrendingBooks = async (
   setBooks: React.Dispatch<React.SetStateAction<BookType[]>>,
   limit: number = 3
@@ -56,20 +59,17 @@ export const getBook = async (
   id: string
 ): Promise<void> => {
   const response = await openLibraryClient(baseUrl + `works/${id}.json`);
-  setBook(response);
-  /*   if (response && "works" in response) {
-    //setBook(response.works);
+  if (response && "title" in response) {
+    setBook(response);
   } else {
-    console.error("No books found or failed to fetch data");
-  } */
+    console.error("No book found or failed to fetch data");
+  }
 };
 
 async function openLibraryClient(query: string): Promise<OpenLibraryResponse> {
-  // API returns 'docs' when using search endpoint and 'works' when using trending/daily
   try {
     const response = await fetch(query, options);
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Error:", error);

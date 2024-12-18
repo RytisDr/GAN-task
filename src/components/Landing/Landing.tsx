@@ -4,7 +4,20 @@ import {
   getTrendingBooks,
   searchForBooks,
 } from "../../utils/openLibrary";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import {
+  BookCard,
+  BookCover,
+  BookTitle,
+  Content,
+  Loading,
+  Navigation,
+  PageHeading,
+  StyledLink,
+} from "../../shared-styles/common-components";
+import styled from "styled-components";
+
+const StyledForm = styled.form``;
 
 function Landing() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -23,7 +36,7 @@ function Landing() {
   }, [searchParams]);
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent page reload
+    event.preventDefault();
     if (searchTerm) {
       setSearchParams({ q: searchTerm }); // Update URL with the search term
     } else {
@@ -32,11 +45,11 @@ function Landing() {
   };
 
   return (
-    <>
-      <nav>
-        <Link to="/books">Books</Link>
-      </nav>
-      <form onSubmit={handleSearch}>
+    <Content>
+      <Navigation>
+        <StyledLink to="/books">Books</StyledLink>
+      </Navigation>
+      <StyledForm onSubmit={handleSearch}>
         <input
           type="text"
           placeholder="Search for books..."
@@ -44,28 +57,28 @@ function Landing() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <button type="submit">Search</button>
-      </form>
-      {!searchParams.get("q") && <h1>Top 3 Trending Books Right Now!</h1>}
-      <div className="trending-book-card">
-        {books.length > 0 ? (
-          books.map((book) => (
-            <div key={book.key}>
-              <p>{book.title}</p>
-              <img
-                src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`}
-                alt={
-                  book.title
-                    ? `${book.title} book cover.`
-                    : "Cover of a book missing."
-                }
-              />
-            </div>
-          ))
-        ) : (
-          <p>Loading</p>
-        )}
-      </div>
-    </>
+      </StyledForm>
+      {!searchParams.get("q") && (
+        <PageHeading>Top 3 Trending Books Right Now!</PageHeading>
+      )}
+      {books.length > 0 ? (
+        books.map((book) => (
+          <BookCard key={book.key}>
+            <BookTitle>{book.title}</BookTitle>
+            <BookCover
+              src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`}
+              alt={
+                book.title
+                  ? `${book.title} book cover.`
+                  : "Cover of a book missing."
+              }
+            />
+          </BookCard>
+        ))
+      ) : (
+        <Loading>Loading</Loading>
+      )}
+    </Content>
   );
 }
 

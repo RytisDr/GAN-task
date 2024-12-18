@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Landing from "../Landing/Landing";
-import "../../global-styles/index.css";
+import "../../shared-styles/index.css";
 import Books from "../Books/Books";
 import BookDetails from "../BookDetails/BookDetails";
 

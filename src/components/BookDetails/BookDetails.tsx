@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { BookType, getBook } from "../../utils/openLibrary";
+import {
+  BookCover,
+  BookTitle,
+  Content,
+  Loading,
+  Navigation,
+  StyledLink,
+} from "../../shared-styles/common-components";
 
 function BookDetails() {
   const { id } = useParams<{ id: string }>();
@@ -13,23 +21,23 @@ function BookDetails() {
   }, [id]);
 
   if (!book) {
-    return <p>Loading book details...</p>;
+    return <Loading>Loading book details...</Loading>;
   }
 
   return (
-    <div>
-      <nav>
-        <Link to="/books">Back to Books</Link>
-      </nav>
-      <h1>{book.title}</h1>
+    <Content>
+      <Navigation>
+        <StyledLink to="/books">Back to Trending Books</StyledLink>
+      </Navigation>
+      <BookTitle>{book.title}</BookTitle>
       {book.covers?.length && (
-        <img
+        <BookCover
           src={`https://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`}
           alt={`${book.title} cover`}
         />
       )}
       <p>Book Key: {book.key}</p>
-    </div>
+    </Content>
   );
 }
 
