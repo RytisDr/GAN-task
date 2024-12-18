@@ -17,7 +17,19 @@ import {
 } from "../../shared-styles/common-components";
 import styled from "styled-components";
 
-const StyledForm = styled.form``;
+const StyledForm = styled.form`
+  margin: 20px;
+  input {
+    height: 50px;
+    border: none;
+    padding: 0px 10px;
+  }
+  button {
+    height: 50px;
+    cursor: pointer;
+    margin: 0px;
+  }
+`;
 
 function Landing() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -47,12 +59,12 @@ function Landing() {
   return (
     <Content>
       <Navigation>
-        <StyledLink to="/books">Books</StyledLink>
+        <StyledLink to="/books">More Trending Books</StyledLink>
       </Navigation>
       <StyledForm onSubmit={handleSearch}>
         <input
           type="text"
-          placeholder="Search for books..."
+          placeholder="Search for a book..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

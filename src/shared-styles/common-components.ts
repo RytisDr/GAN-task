@@ -2,9 +2,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Navigation = styled.nav`
-  display: flex;
-  justify-content: space-around;
-  align-items: left;
   padding: 1rem;
   background-color: #f8f9fa;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -19,7 +16,10 @@ export const StyledLink = styled(Link)`
   }
 `;
 
-export const Content = styled.div``;
+export const Content = styled.div`
+  max-width: 1000px;
+  margin: auto;
+`;
 export const PageHeading = styled.h1`
   font-size: 3.2em;
   line-height: 1.1;
