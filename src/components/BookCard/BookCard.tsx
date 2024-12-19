@@ -5,9 +5,13 @@ import {
   StyledBookTitle,
 } from "../../shared-styles/common-components";
 
-export const StyledBookCard = styled.div`
+const StyledBookCard = styled.div`
   margin: 40px 0px;
   max-width: 300px;
+`;
+
+const StyledBookCardLink = styled(Link)`
+  color: inherit;
 `;
 
 type BookCardProps = {
@@ -19,7 +23,7 @@ type BookCardProps = {
 const BookCard: React.FC<BookCardProps> = ({ title, coverId, key_id }) => {
   return (
     <StyledBookCard>
-      <Link
+      <StyledBookCardLink
         to={`/books/${key_id}`}
         aria-label={`View details of the book: ${title}`}
       >
@@ -33,7 +37,7 @@ const BookCard: React.FC<BookCardProps> = ({ title, coverId, key_id }) => {
           aria-labelledby={`book-title-${key_id}`}
         />
         <StyledBookTitle id={`book-title-${key_id}`}>{title}</StyledBookTitle>
-      </Link>
+      </StyledBookCardLink>
     </StyledBookCard>
   );
 };
