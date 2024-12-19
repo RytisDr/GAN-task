@@ -19,7 +19,10 @@ type BookCardProps = {
 const BookCard: React.FC<BookCardProps> = ({ title, coverId, key_id }) => {
   return (
     <StyledBookCard>
-      <Link to={`/books/${key_id}`}>
+      <Link
+        to={`/books/${key_id}`}
+        aria-label={`View details of the book: ${title}`}
+      >
         <StyledBookCover
           src={
             coverId
@@ -27,8 +30,9 @@ const BookCard: React.FC<BookCardProps> = ({ title, coverId, key_id }) => {
               : "https://via.placeholder.com/150?text=No+Cover"
           }
           alt={title ? `${title} book cover.` : "Cover of a book missing."}
+          aria-labelledby={`book-title-${key_id}`}
         />
-        <StyledBookTitle>{title}</StyledBookTitle>
+        <StyledBookTitle id={`book-title-${key_id}`}>{title}</StyledBookTitle>
       </Link>
     </StyledBookCard>
   );

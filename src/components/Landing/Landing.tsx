@@ -7,26 +7,30 @@ import {
 } from "../../utils/openLibrary";
 import { useSearchParams } from "react-router-dom";
 import {
+  BookCardWrapper,
   Content,
   Loading,
-  Navigation,
   PageHeading,
-  StyledLink,
 } from "../../shared-styles/common-components";
 import styled from "styled-components";
 import BookCard from "../BookCard/BookCard";
 
 const StyledForm = styled.form`
-  margin: 20px;
+  margin-top: 20px;
+  font-family: inherit;
   input {
     height: 50px;
     border: none;
     padding: 0px 10px;
+    font-family: inherit;
   }
   button {
     height: 50px;
     cursor: pointer;
     margin: 0px;
+    font-family: inherit;
+    border-radius: 0px;
+    border: none;
   }
 `;
 
@@ -56,23 +60,25 @@ function Landing() {
   };
 
   return (
-    <>
-      <Navigation>
-        <StyledLink to="/books">Trending Books</StyledLink>
-      </Navigation>
-      <Content>
-        <StyledForm onSubmit={handleSearch}>
-          <input
-            type="text"
-            placeholder="Search for a book..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button type="submit">Search</button>
-        </StyledForm>
-        {!searchParams.get("q") && (
-          <PageHeading>Top 3 Trending Books Right Now!</PageHeading>
-        )}
+    <Content>
+      <StyledForm onSubmit={handleSearch} aria-label="Search for books">
+        <input
+          type="text"
+          placeholder="Search for a book..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          aria-label="Enter book title to search"
+        />
+        <button type="submit" aria-label="Submit search">
+          Search
+        </button>
+      </StyledForm>
+
+      {!searchParams.get("q") && (
+        <PageHeading>Top 3 Trending Books Right Now!</PageHeading>
+      )}
+
+      <BookCardWrapper>
         {books.length > 0 ? (
           books.map((book) => {
             const cleanedKey = removePrefix(book.key);
@@ -88,8 +94,8 @@ function Landing() {
         ) : (
           <Loading>Loading</Loading>
         )}
-      </Content>
-    </>
+      </BookCardWrapper>
+    </Content>
   );
 }
 

@@ -6,8 +6,6 @@ import {
   StyledBookTitle,
   Content,
   Loading,
-  Navigation,
-  StyledLink,
 } from "../../shared-styles/common-components";
 import styled from "styled-components";
 
@@ -31,26 +29,26 @@ function BookDetails() {
   }
 
   return (
-    <>
-      <Navigation>
-        <StyledLink to="/">Home</StyledLink>
-        <StyledLink to="/books">Trending Books</StyledLink>
-      </Navigation>
-      <Content>
-        <StyledBookDetailsWrapper>
-          <StyledBookTitle>{book.title}</StyledBookTitle>
-          {book.covers?.length && (
-            <StyledBookCover
-              src={`https://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`}
-              alt={`${book.title} cover`}
-            />
-          )}
-          <StyledDescription>
-            {getBookDescription(book.description)}
-          </StyledDescription>
-        </StyledBookDetailsWrapper>
-      </Content>
-    </>
+    <Content>
+      <StyledBookDetailsWrapper>
+        <StyledBookTitle
+          id="book-title"
+          aria-label={`Title of the book: ${book.title}`}
+        >
+          {book.title}
+        </StyledBookTitle>
+        {book.covers?.length && (
+          <StyledBookCover
+            src={`https://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`}
+            alt={`${book.title} book cover image`}
+            aria-label={`Cover image of the book titled: ${book.title}`}
+          />
+        )}
+        <StyledDescription aria-labelledby="book-title">
+          {getBookDescription(book.description)}
+        </StyledDescription>
+      </StyledBookDetailsWrapper>
+    </Content>
   );
 }
 

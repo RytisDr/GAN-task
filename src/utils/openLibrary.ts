@@ -37,7 +37,6 @@ export const searchForBooks = async (
     baseUrl + `search.json?q=${query}&limit=${limit}`
   );
   if (response && "docs" in response) {
-    console.log(response);
     setBooks(response.docs);
   } else {
     console.error("No books found or failed to fetch data");

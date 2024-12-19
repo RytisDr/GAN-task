@@ -5,11 +5,10 @@ import {
   removePrefix,
 } from "../../utils/openLibrary";
 import {
+  BookCardWrapper,
   Content,
   Loading,
-  Navigation,
   PageHeading,
-  StyledLink,
 } from "../../shared-styles/common-components";
 import BookCard from "../BookCard/BookCard";
 
@@ -19,12 +18,9 @@ function Books() {
     getTrendingBooks(setBooks, 10);
   }, []);
   return (
-    <>
-      <Navigation>
-        <StyledLink to="/">Home</StyledLink>
-      </Navigation>
-      <Content>
-        <PageHeading>Top 10 Trending books!</PageHeading>
+    <Content>
+      <PageHeading>Top 10 Trending books!</PageHeading>
+      <BookCardWrapper>
         {books.length > 0 ? (
           books.map((book) => {
             const cleanedKey = removePrefix(book.key);
@@ -40,8 +36,8 @@ function Books() {
         ) : (
           <Loading>Loading</Loading>
         )}
-      </Content>
-    </>
+      </BookCardWrapper>
+    </Content>
   );
 }
 

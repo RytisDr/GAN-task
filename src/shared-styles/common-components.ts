@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const Navigation = styled.nav`
+export const StyledNavigation = styled.nav`
   padding: 1rem;
   background-color: #f8f9fa;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -34,4 +34,9 @@ export const StyledBookTitle = styled.h2`
 export const StyledBookCover = styled.img`
   max-width: 300px;
   margin: auto;
+`;
+
+export const BookCardWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
 `;
