@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { BookType, getBook } from "../../utils/openLibrary";
+import { BookType, getBook, getBookDescription } from "../../utils/openLibrary";
 import {
-  BookCover,
-  BookTitle,
+  StyledBookCover,
+  StyledBookTitle,
   Content,
   Loading,
   Navigation,
   StyledLink,
 } from "../../shared-styles/common-components";
+import styled from "styled-components";
+
+const StyledDescription = styled.p``;
+const StyledBookDetailsWrapper = styled.div`
+  max-width: 350px;
+`;
 
 function BookDetails() {
   const { id } = useParams<{ id: string }>();
@@ -25,19 +31,26 @@ function BookDetails() {
   }
 
   return (
-    <Content>
+    <>
       <Navigation>
-        <StyledLink to="/books">Back to Trending Books</StyledLink>
+        <StyledLink to="/">Home</StyledLink>
+        <StyledLink to="/books">Trending Books</StyledLink>
       </Navigation>
-      <BookTitle>{book.title}</BookTitle>
-      {book.covers?.length && (
-        <BookCover
-          src={`https://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`}
-          alt={`${book.title} cover`}
-        />
-      )}
-      <p>Book Key: {book.key}</p>
-    </Content>
+      <Content>
+        <StyledBookDetailsWrapper>
+          <StyledBookTitle>{book.title}</StyledBookTitle>
+          {book.covers?.length && (
+            <StyledBookCover
+              src={`https://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`}
+              alt={`${book.title} cover`}
+            />
+          )}
+          <StyledDescription>
+            {getBookDescription(book.description)}
+          </StyledDescription>
+        </StyledBookDetailsWrapper>
+      </Content>
+    </>
   );
 }
 

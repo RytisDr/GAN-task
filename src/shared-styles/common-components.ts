@@ -14,6 +14,7 @@ export const StyledLink = styled(Link)`
   &:hover {
     color: #535bf2;
   }
+  margin: 20px;
 `;
 
 export const Content = styled.div`
@@ -26,6 +27,11 @@ export const PageHeading = styled.h1`
 `;
 
 export const Loading = styled.p``;
-export const BookTitle = styled.h2``;
-export const BookCard = styled.div``;
-export const BookCover = styled.img``;
+
+export const StyledBookTitle = styled.h2`
+  margin: 0px;
+`;
+export const StyledBookCover = styled.img`
+  max-width: 300px;
+  margin: auto;
+`;

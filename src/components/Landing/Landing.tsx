@@ -2,13 +2,11 @@ import { useEffect, useState } from "react";
 import {
   BookType,
   getTrendingBooks,
+  removePrefix,
   searchForBooks,
 } from "../../utils/openLibrary";
 import { useSearchParams } from "react-router-dom";
 import {
-  BookCard,
-  BookCover,
-  BookTitle,
   Content,
   Loading,
   Navigation,
@@ -16,6 +14,7 @@ import {
   StyledLink,
 } from "../../shared-styles/common-components";
 import styled from "styled-components";
+import BookCard from "../BookCard/BookCard";
 
 const StyledForm = styled.form`
   margin: 20px;
@@ -57,40 +56,40 @@ function Landing() {
   };
 
   return (
-    <Content>
+    <>
       <Navigation>
-        <StyledLink to="/books">More Trending Books</StyledLink>
+        <StyledLink to="/books">Trending Books</StyledLink>
       </Navigation>
-      <StyledForm onSubmit={handleSearch}>
-        <input
-          type="text"
-          placeholder="Search for a book..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button type="submit">Search</button>
-      </StyledForm>
-      {!searchParams.get("q") && (
-        <PageHeading>Top 3 Trending Books Right Now!</PageHeading>
-      )}
-      {books.length > 0 ? (
-        books.map((book) => (
-          <BookCard key={book.key}>
-            <BookTitle>{book.title}</BookTitle>
-            <BookCover
-              src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`}
-              alt={
-                book.title
-                  ? `${book.title} book cover.`
-                  : "Cover of a book missing."
-              }
-            />
-          </BookCard>
-        ))
-      ) : (
-        <Loading>Loading</Loading>
-      )}
-    </Content>
+      <Content>
+        <StyledForm onSubmit={handleSearch}>
+          <input
+            type="text"
+            placeholder="Search for a book..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button type="submit">Search</button>
+        </StyledForm>
+        {!searchParams.get("q") && (
+          <PageHeading>Top 3 Trending Books Right Now!</PageHeading>
+        )}
+        {books.length > 0 ? (
+          books.map((book) => {
+            const cleanedKey = removePrefix(book.key);
+            return (
+              <BookCard
+                key={book.key}
+                title={book.title}
+                coverId={book.cover_i}
+                key_id={cleanedKey}
+              />
+            );
+          })
+        ) : (
+          <Loading>Loading</Loading>
+        )}
+      </Content>
+    </>
   );
 }
 

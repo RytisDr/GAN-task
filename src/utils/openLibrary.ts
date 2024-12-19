@@ -12,7 +12,10 @@ const options = {
   headers: headers,
 };
 
+type BookDescription = string | { type: string; value: string } | null;
+
 export type BookType = {
+  description: BookDescription;
   covers?: number[];
   title: string;
   cover_i?: number;
@@ -34,6 +37,7 @@ export const searchForBooks = async (
     baseUrl + `search.json?q=${query}&limit=${limit}`
   );
   if (response && "docs" in response) {
+    console.log(response);
     setBooks(response.docs);
   } else {
     console.error("No books found or failed to fetch data");
@@ -81,4 +85,15 @@ async function openLibraryClient(query: string): Promise<OpenLibraryResponse> {
 export function removePrefix(key: string): string {
   const lastSlashIndex = key.lastIndexOf("/");
   return lastSlashIndex !== -1 ? key.slice(lastSlashIndex + 1) : key;
+}
+
+// Aims to fix messy API return for description to use in book details
+export function getBookDescription(description: BookDescription): string {
+  if (typeof description === "object" && description?.value) {
+    return description.value;
+  }
+  if (typeof description === "string") {
+    return description;
+  }
+  return "No description available";
 }
